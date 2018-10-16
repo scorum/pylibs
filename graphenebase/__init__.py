@@ -7,7 +7,7 @@ from . import dictionary as BrainKeyDictionary
 __all__ = ['account',
            'base58',
            'bip38',
-           'types',
+           'graphene_types.py',
            'chains',
            'objects',
            'operations',

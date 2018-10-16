@@ -1,12 +1,14 @@
 import json
 import struct
 import time
-from calendar import timegm
-from datetime import datetime
 from binascii import hexlify, unhexlify
-from collections import OrderedDict
-from .objecttypes import object_type
+from calendar import timegm
 from uuid import UUID
+
+try:
+    from .objecttypes import object_type
+except (ImportError, SystemError):
+    from objecttypes import object_type
 
 timeformat = '%Y-%m-%dT%H:%M:%S%Z'
 

@@ -1,9 +1,15 @@
 import hashlib
-from binascii import hexlify, unhexlify
-import sys
-from .account import PrivateKey
-from .base58 import Base58, base58decode
 import logging
+import sys
+from binascii import hexlify, unhexlify
+
+try:
+    from .account import PrivateKey
+    from .base58 import Base58, base58decode
+except (ImportError, SystemError):
+    from account import PrivateKey
+    from base58 import Base58, base58decode
+
 log = logging.getLogger(__name__)
 
 try:

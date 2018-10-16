@@ -5,8 +5,12 @@ import sys
 import re
 import os
 
-from .base58 import ripemd160, Base58
-from .dictionary import words as BrainKeyDictionary
+try:
+    from .base58 import ripemd160, Base58
+    from .dictionary import words as BrainKeyDictionary
+except (ImportError, SystemError):
+    from base58 import ripemd160, Base58
+    from dictionary import words as BrainKeyDictionary
 
 """ This class and the methods require python3 """
 assert sys.version_info[0] == 3, "graphenelib requires python3"

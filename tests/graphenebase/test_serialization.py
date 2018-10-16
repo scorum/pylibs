@@ -2,7 +2,7 @@ import pytest
 
 from binascii import hexlify
 
-from graphenebase.types import BudgetType
+from graphenebase.graphene_types import BudgetType
 from graphenebase.amount import Amount
 from graphenebase.signedtransactions import SignedTransaction
 from graphenebase.operations_fabric import (

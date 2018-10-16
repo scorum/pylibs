@@ -1,20 +1,27 @@
-from collections import OrderedDict
 import json
 import struct
-from .types import (
-    Uint8, Int16, Uint16, Uint32, Uint64,
-    Varint32, Int64, String, Bytes, Void,
-    Array, PointInTime, Signature, Bool,
-    Set, Fixed_array, Optional, Static_variant,
-    Map, Id, VoteId, ObjectId, BudgetType, Uuid
-)
-from .objects import GrapheneObject, isArgsThisClass
-from .account import PublicKey
-from .chains import default_prefix
-from .objects import Operation
-from .operationids import operations
+from collections import OrderedDict
 
-from .betting import Game, Market
+try:
+    from .account import PublicKey
+    from .betting import Game, Market
+    from .chains import default_prefix
+    from .graphene_types import (
+        Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
+        Set, Map, BudgetType, Uuid
+    )
+    from .objects import GrapheneObject, isArgsThisClass
+    from .objects import Operation
+except (ImportError, SystemError):
+    from account import PublicKey
+    from betting import Game, Market
+    from chains import default_prefix
+    from graphene_types import (
+        Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
+        Set, Map, BudgetType, Uuid
+    )
+    from objects import GrapheneObject, isArgsThisClass
+    from objects import Operation
 
 asset_precision = {
     "SCR": 9,

@@ -1,20 +1,14 @@
-from collections import OrderedDict
 import json
 import re
-import struct
-from graphenebase.types import (
-    Uint8, Int16, Uint16, Uint32, Uint64,
-    Varint32, Int64, String, Bytes, Void,
-    Array, PointInTime, Signature, Bool,
-    Set, Fixed_array, Optional, Static_variant,
-    Map, Id, VoteId, ObjectId,
-    JsonObj
+
+from graphenebase.graphene_types import (
+    String, Optional, Id, JsonObj
 )
-from .chains import known_chains
-from .objecttypes import object_type
-from .account import PublicKey
-from .chains import default_prefix
-from .operationids import operations
+
+try:
+    from .operationids import operations
+except (ImportError, SystemError):
+    from operationids import operations
 
 
 class Operation:

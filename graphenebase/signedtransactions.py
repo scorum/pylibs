@@ -1,24 +1,21 @@
-import ecdsa
 import hashlib
+import logging
 from binascii import hexlify, unhexlify
 from collections import OrderedDict
 
-from .account import PublicKey
-from .types import (
-    Array,
-    Set,
-    Signature,
-    PointInTime,
-    Uint16,
-    Uint32,
-)
+try:
+    from .account import PublicKey
+    from .graphene_ecdsa import sign_message, verify_message
+    from .graphene_types import Array, Set, Signature, PointInTime, Uint16, Uint32
+    from .objects import GrapheneObject, isArgsThisClass
+    from .operations import Operation
+except (ImportError, SystemError):
+    from account import PublicKey
+    from graphene_ecdsa import sign_message, verify_message
+    from graphene_types import Array, Set, Signature, PointInTime, Uint16, Uint32
+    from objects import GrapheneObject, isArgsThisClass
+    from operations import Operation
 
-
-from .objects import GrapheneObject, isArgsThisClass
-from .operations import Operation
-from .chains import known_chains
-from .ecdsa import sign_message, verify_message
-import logging
 log = logging.getLogger(__name__)
 
 try:

@@ -1,9 +1,9 @@
-import re
 import json
+import re
+from collections import OrderedDict
 
-from graphenebase.types import Id, Uint16, OrderedDict
+from graphenebase.graphene_types import Id, Uint16
 from graphenebase.objects import GrapheneObject
-
 
 MARKETS = [
     "result_home_market",

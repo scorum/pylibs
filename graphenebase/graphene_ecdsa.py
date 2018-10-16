@@ -1,10 +1,15 @@
-import time
-import ecdsa
 import hashlib
-import struct
 import logging
-from binascii import hexlify, unhexlify
-from .account import PrivateKey, PublicKey
+import struct
+import time
+
+import ecdsa
+
+try:
+    from .account import PrivateKey
+except (ImportError, SystemError):
+    from account import PrivateKey
+
 log = logging.getLogger(__name__)
 
 try:

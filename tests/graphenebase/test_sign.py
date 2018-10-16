@@ -3,9 +3,9 @@ from binascii import hexlify, unhexlify
 
 from graphenebase import operations
 from graphenebase.account import PublicKey
-from graphenebase.ecdsa import sign_message, verify_message
+from graphenebase.graphene_ecdsa import sign_message, verify_message
 from graphenebase.signedtransactions import SignedTransaction
-from graphenebase.types import String
+from graphenebase.graphene_types import String
 
 
 def test_sha256_hash():
