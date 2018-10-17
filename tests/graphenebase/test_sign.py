@@ -1,11 +1,10 @@
 import hashlib
 from binascii import hexlify, unhexlify
 
-from graphenebase import operations
-from graphenebase.account import PublicKey
-from graphenebase.graphene_ecdsa import sign_message, verify_message
-from graphenebase.signedtransactions import SignedTransaction
-from graphenebase.graphene_types import String
+from scorum.graphenebase import operations
+from scorum.graphenebase import PublicKey
+from scorum.graphenebase.signedtransactions import sign_message, verify_message, SignedTransaction
+from scorum.graphenebase.graphene_types import String
 
 
 def test_sha256_hash():

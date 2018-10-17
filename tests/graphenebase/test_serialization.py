@@ -2,10 +2,10 @@ import pytest
 
 from binascii import hexlify
 
-from graphenebase.graphene_types import BudgetType
-from graphenebase.amount import Amount
-from graphenebase.signedtransactions import SignedTransaction
-from graphenebase.operations_fabric import (
+from scorum.graphenebase.graphene_types import BudgetType
+from scorum.graphenebase.amount import Amount
+from scorum.graphenebase.signedtransactions import SignedTransaction
+from scorum.graphenebase.operations_fabric import (
     devpool_withdraw_vesting, create_budget_operation, development_committee_empower_advertising_moderator,
     close_budget_by_advertising_moderator, development_committee_change_budgets_auction_properties,
     update_budget_operation, close_budget_operation

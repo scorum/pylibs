@@ -1,14 +1,12 @@
 import json
 import re
 
-from graphenebase.graphene_types import (
-    String, Optional, Id, JsonObj
-)
-
 try:
     from .operationids import operations
+    from .graphene_types import String, Optional, Id, JsonObj
 except (ImportError, SystemError):
     from operationids import operations
+    from graphene_types import String, Optional, Id, JsonObj
 
 
 class Operation:

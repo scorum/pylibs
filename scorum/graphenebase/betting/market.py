@@ -2,8 +2,8 @@ import json
 import re
 from collections import OrderedDict
 
-from graphenebase.graphene_types import Id, Uint16
-from graphenebase.objects import GrapheneObject
+from scorum.graphenebase.graphene_types import Id, Uint16
+from scorum.graphenebase.objects import GrapheneObject
 
 MARKETS = [
     "result_home_market",

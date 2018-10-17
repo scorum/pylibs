@@ -1,6 +1,6 @@
 import pytest
 
-from graphenebase.amount import Amount
+from scorum.graphenebase.amount import Amount
 
 
 @pytest.mark.parametrize('amount_string,expected', [

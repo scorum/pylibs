@@ -1,8 +1,8 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
-    name='pylibs',
+    name='scorum',
     version='0.0.1',
-    packages=['graphenebase', 'utils', 'tests'],
-    long_description=open('README.md').read(), requires=['ecdsa', 'pytest', 'pycrypto', 'scrypt']
+    packages=find_packages(exclude=["tests"]),
+    long_description=open('README.md').read(), install_requires=['ecdsa', 'pytest', 'pycrypto', 'scrypt']
 )

@@ -2,9 +2,8 @@ import pytest
 
 from binascii import hexlify
 
-from graphenebase.betting import market
-from graphenebase.betting import Game, Market
-from graphenebase.operations import CreateGame
+from scorum.graphenebase.betting import market, Game, Market
+from scorum.graphenebase.operations import CreateGame
 
 
 def to_hex(data):

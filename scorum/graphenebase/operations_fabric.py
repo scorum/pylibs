@@ -1,6 +1,11 @@
-from graphenebase import operations
-from graphenebase.account import PublicKey
-from graphenebase.amount import Amount
+try:
+    from . import operations
+    from . import PublicKey
+    from .amount import Amount
+except (ImportError, SystemError):
+    import operations
+    import PublicKey
+    from amount import Amount
 
 
 def transfer_operation(_from, to, amount: Amount, memo):
