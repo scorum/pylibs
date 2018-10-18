@@ -10,8 +10,8 @@ python_version = "3.5"
 
 [packages]
 requests = "*"
-ecdsa = "*"
+ecdsa = "==0.13"
 pytest = "*"
-pycrypto = "*"
-scrypt = "*"
+pycrypto = "==2.6.1"
+scrypt = "==0.8.0"
 aiohttp = "*"
