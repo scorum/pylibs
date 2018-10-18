@@ -1,21 +1,27 @@
 operations = {
     'vote':                                       0,
     'comment':                                    1,
+
     'transfer':                                   2,
     'transfer_to_scorumpower':                    3,
     'withdraw_scorumpower':                       4,
+
     'account_create_by_committee':                5,
     'account_create':                             6,
     'account_create_with_delegation':             7,
     'account_update':                             8,
+
     'witness_update':                             9,
     'account_witness_vote':                       10,
     'account_witness_proxy':                      11,
+
     'delete_comment':                             12,
     'comment_options':                            13,
     'set_withdraw_scorumpower_route_to_account':  14,
     'set_withdraw_scorumpower_route_to_dev_pool': 15,
+
     'prove_authority':                            16,
+
     'request_account_recovery':                   17,
     'recover_account':                            18,
     'change_recovery_account':                    19,
@@ -23,15 +29,20 @@ operations = {
     'escrow_dispute':                             21,
     'escrow_release':                             22,
     'escrow_transfer':                            23,
+
     'decline_voting_rights':                      24,
     'delegate_scorumpower_shares':                25,
+
     'create_budget':                              26,
     'close_budget':                               27,
+
     'proposal_vote':                              28,
     'proposal_create':                            29,
+
     'atomicswap_initiate':                        30,
     'atomicswap_redeem':                          31,
     'atomicswap_refund':                          32,
+
     'close_budget_by_advertising_moderator':      33,
     'update_budget':                              34,
 
@@ -41,6 +52,9 @@ operations = {
     "update_game_markets": 50,
     "update_game_start_time": 51,
     "post_game_results": 52,
+
+    "post_bet_operation": 53,
+    "cancel_pending_bets_operation": 54,
 
     # virtual operations
     'author_reward':                              35,
@@ -61,11 +75,17 @@ operations = {
     'devpool_to_acc_vesting_withdraw':            50,
     'acc_to_devpool_vesting_withdraw':            51,
     'devpool_to_devpool_vesting_withdraw':        52,
-    'proposal_virtual_operation':                 53,
-    'budget_outgo_operation':                     54,
-    'budget_owner_income_operation':              55,
-    'active_sp_holders_reward_legacy_operation':  56,
-    'budget_closing_operation':                   57,
+    'proposal_virtual':                           53,
+
+    'budget_outgo':                               54,
+    'budget_owner_income':                        55,
+    'active_sp_holders_reward_legacy':            56,
+    'budget_closing':                             57,
+
+    'bets_matched_operation':                     58,
+    'game_status_changed':                        59,
+    'bet_resolved_operation':                     60,
+    'bet_cancelled_operation':                    61,
 
     # proposal operations
     'registration_committee_add_member':          0,
