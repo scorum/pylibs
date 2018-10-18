@@ -1,4 +1,4 @@
-pyscorum
+scorum-py
 ===
 Python library for scorum project 
 
