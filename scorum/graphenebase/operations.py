@@ -495,6 +495,22 @@ class CancelGame(GrapheneObject):
                 ]))
 
 
+class UpdateGameStartTime(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('moderator', String(kwargs['moderator'])),
+                    ('start_time', PointInTime(kwargs['start_time']))
+                ]))
+
+
 class CloseBudgetByAdvertisingModerator(GrapheneObject):
     def __init__(self, *args, **kwargs):
         if isArgsThisClass(self, args):
