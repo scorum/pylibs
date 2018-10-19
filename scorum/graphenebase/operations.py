@@ -470,9 +470,11 @@ class CreateGame(GrapheneObject):
 
             super().__init__(
                 OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
                     ('moderator', String(kwargs['moderator'])),
                     ('name', String(kwargs["name"])),
-                    ('start', PointInTime(kwargs['start'])),
+                    ('start_time', PointInTime(kwargs['start_time'])),
+                    ('auto_resolve_delay_sec', Uint32(kwargs['auto_resolve_delay_sec'])),
                     ('game', Game(kwargs['game'])),
                     ('markets', Array(markets))
                 ]))
