@@ -495,6 +495,24 @@ class CancelGame(GrapheneObject):
                 ]))
 
 
+class UpdateGameMarkets(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            markets = [Market(m) for m in kwargs['markets']]
+
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('moderator', String(kwargs['moderator'])),
+                    ('markets', Array(markets))
+                ]))
+
+
 class UpdateGameStartTime(GrapheneObject):
     def __init__(self, *args, **kwargs):
         if isArgsThisClass(self, args):

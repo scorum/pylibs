@@ -265,6 +265,14 @@ def cancel_game(uuid, moderator):
     })
 
 
+def update_game_markets(uuid, moderator, markets):
+    return operations.UpdateGameMarkets(**{
+        'uuid': uuid,
+        'moderator': moderator,
+        'markets': markets
+    })
+
+
 def update_game_start_time(uuid, moderator, start_time):
     return operations.UpdateGameStartTime(**{
         'uuid': uuid,
