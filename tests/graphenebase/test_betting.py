@@ -3,7 +3,7 @@ import pytest
 from binascii import hexlify
 
 from scorum.graphenebase.betting import market, Game, Market
-from scorum.graphenebase.operations import CreateGame
+from scorum.graphenebase import operations_fabric as ops
 from scorum.graphenebase.signedtransactions import SignedTransaction
 
 
@@ -58,15 +58,24 @@ def test_serialize_markets(market_type, val):
     )
 ])
 def test_serialize_create_game(game, markets, result_bin):
-    op = CreateGame(
-        **{'uuid': 'e629f9aa-6b2c-46aa-8fa8-36770e7a7a5f',
-           'moderator': "admin",
-           'name': "game name",
-           'start_time': "2018-08-03T10:12:43",
-           'auto_resolve_delay_sec': 33,
-           'game': game,
-           'markets': markets}
+    op = ops.create_game(
+        'e629f9aa-6b2c-46aa-8fa8-36770e7a7a5f', "admin", "game name", "2018-08-03T10:12:43", 33, game, markets
     )
-
     signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
     assert to_hex(signed_ops.data[0]) == result_bin
+
+
+def test_serialize_development_committee_empower_betting_moderator_to_byte():
+    op = ops.development_committee_empower_betting_moderator("initdelegate", "alice", 86400)
+    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
+
+    result_bin = b'1d0c696e697464656c6567617465805101000b05616c696365'
+    assert hexlify(bytes(signed_ops.data[0])) == result_bin
+
+
+def test_serialize_development_committee_change_betting_resolve_delay_to_byte():
+    op = ops.development_committee_change_betting_resolve_delay("initdelegate", 10, 86400)
+    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
+
+    result_bin = b'1d0c696e697464656c6567617465805101000c0a000000'
+    assert hexlify(bytes(signed_ops.data[0])) == result_bin
