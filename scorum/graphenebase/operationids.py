@@ -119,6 +119,8 @@ class ProposalOperations(OperationsBase):
     development_committee_empower_advertising_moderator = ()
     development_committee_change_post_budgets_auction_properties = ()
     development_committee_change_banner_budgets_auction_properties = ()
+    development_committee_empower_betting_moderator = ()
+    development_committee_change_betting_resolve_delay = ()
 
 
 operations = {k: v for Ops in [Operations, ProposalOperations] for k, v in Ops.__members__.items()}

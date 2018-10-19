@@ -8,7 +8,7 @@ from scorum.graphenebase.signedtransactions import SignedTransaction
 from scorum.graphenebase.operations_fabric import (
     devpool_withdraw_vesting, create_budget_operation, development_committee_empower_advertising_moderator,
     close_budget_by_advertising_moderator, development_committee_change_budgets_auction_properties,
-    update_budget_operation, close_budget_operation
+    update_budget_operation, close_budget_operation, development_committee_empower_betting_moderator
 )
 
 
@@ -119,4 +119,12 @@ def test_serialize_update_budget_to_byte(budget_type, result_bin):
 def test_serialize_close_budget_to_byte(budget_type, result_bin):
     op = close_budget_operation("6DCD3132-E5DF-480A-89A8-91984BCA0A09", "initdelegate", budget_type)
     signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
+    assert hexlify(bytes(signed_ops.data[0])) == result_bin
+
+
+def test_serialize_development_committee_empower_betting_moderator_to_byte():
+    op = development_committee_empower_betting_moderator("initdelegate", "alice", 86400)
+    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
+
+    result_bin = b'1d0c696e697464656c6567617465805101000b05616c696365'
     assert hexlify(bytes(signed_ops.data[0])) == result_bin
