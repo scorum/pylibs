@@ -247,22 +247,30 @@ def delegate_scorumpower(delegator, delegatee, scorumpower):
 
 
 def create_game(uuid, moderator, name, start_time, auto_resolve_delay_sec, game, markets):
-    return operations.CreateGame(
-        **{'uuid': uuid,
-           'moderator': moderator,
-           'name': name,
-           'start_time': start_time,
-           'auto_resolve_delay_sec': auto_resolve_delay_sec,
-           'game': game,
-           'markets': markets}
-    )
+    return operations.CreateGame(**{
+        'uuid': uuid,
+        'moderator': moderator,
+        'name': name,
+        'start_time': start_time,
+        'auto_resolve_delay_sec': auto_resolve_delay_sec,
+        'game': game,
+        'markets': markets
+    })
 
 
 def cancel_game(uuid, moderator):
-    return operations.CancelGame(
-        **{'uuid': uuid,
-           'moderator': moderator}
-    )
+    return operations.CancelGame(**{
+        'uuid': uuid,
+        'moderator': moderator
+    })
+
+
+def update_game_start_time(uuid, moderator, start_time):
+    return operations.UpdateGameStartTime(**{
+        'uuid': uuid,
+        'moderator': moderator,
+        'start_time': start_time
+    })
 
 
 def development_committee_empower_advertising_moderator(initiator, moderator, lifetime_sec):
