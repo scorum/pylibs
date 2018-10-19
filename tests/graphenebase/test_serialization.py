@@ -116,19 +116,3 @@ def test_serialize_close_budget_to_byte(budget_type, result_bin):
     op = ops.close_budget_operation("6DCD3132-E5DF-480A-89A8-91984BCA0A09", "initdelegate", budget_type)
     signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
     assert hexlify(bytes(signed_ops.data[0])) == result_bin
-
-
-def test_serialize_development_committee_empower_betting_moderator_to_byte():
-    op = ops.development_committee_empower_betting_moderator("initdelegate", "alice", 86400)
-    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
-
-    result_bin = b'1d0c696e697464656c6567617465805101000b05616c696365'
-    assert hexlify(bytes(signed_ops.data[0])) == result_bin
-
-
-def test_serialize_development_committee_change_betting_resolve_delay_to_byte():
-    op = ops.development_committee_change_betting_resolve_delay("initdelegate", 10, 86400)
-    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
-
-    result_bin = b'1d0c696e697464656c6567617465805101000c0a000000'
-    assert hexlify(bytes(signed_ops.data[0])) == result_bin
