@@ -246,12 +246,14 @@ def delegate_scorumpower(delegator, delegatee, scorumpower):
     )
 
 
-def create_game(moderator, name, game, start, markets):
+def create_game(uuid, moderator, name, start_time, auto_resolve_delay_sec, game, markets):
     return operations.CreateGame(
-        **{'moderator': moderator,
+        **{'uuid': uuid,
+           'moderator': moderator,
            'name': name,
+           'start_time': start_time,
+           'auto_resolve_delay_sec': auto_resolve_delay_sec,
            'game': game,
-           'start': start,
            'markets': markets}
     )
 
