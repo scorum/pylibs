@@ -65,6 +65,12 @@ def test_serialize_create_game(game, markets, result_bin):
     assert to_hex(signed_ops.data[0]) == result_bin
 
 
+def test_serialize_cancel_game():
+    op = ops.cancel_game("e629f9aa-6b2c-46aa-8fa8-36770e7a7a5f", "admin")
+    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
+    assert to_hex(signed_ops.data[0]) == b'24e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e'
+
+
 def test_serialize_development_committee_empower_betting_moderator_to_byte():
     op = ops.development_committee_empower_betting_moderator("initdelegate", "alice", 86400)
     signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])

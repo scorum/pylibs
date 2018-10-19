@@ -258,6 +258,13 @@ def create_game(uuid, moderator, name, start_time, auto_resolve_delay_sec, game,
     )
 
 
+def cancel_game(uuid, moderator):
+    return operations.CancelGame(
+        **{'uuid': uuid,
+           'moderator': moderator}
+    )
+
+
 def development_committee_empower_advertising_moderator(initiator, moderator, lifetime_sec):
     return operations.ProposalCreate(
         **{
