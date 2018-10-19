@@ -298,3 +298,13 @@ def development_committee_empower_betting_moderator(initiator, moderator, lifeti
             "operation": operations.DevelopmentCommitteeEmpowerBettingModerator(**{"account": moderator})
         }
     )
+
+
+def development_committee_change_betting_resolve_delay(initiator, delay_sec, lifetime_sec):
+    return operations.ProposalCreate(
+        **{
+            "creator": initiator,
+            "lifetime_sec": lifetime_sec,
+            "operation": operations.DevelopmentCommitteeChangeBettingResolveDelay(**{"delay_sec": delay_sec})
+        }
+    )
