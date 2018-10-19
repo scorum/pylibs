@@ -64,7 +64,7 @@ class Operation:
     def __init__(self, op: GrapheneObject):
         self.op = op
         self.name = type(self.op).__name__  # also store name
-        self.opId = operations[self.to_method_name(self.name)]
+        self.opId = operations[self.to_method_name(self.name)].value
 
     @staticmethod
     def to_method_name(class_name: str):

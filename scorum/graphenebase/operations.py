@@ -351,6 +351,19 @@ class DevelopmentCommitteeChangeBannerBudgetsAuctionProperties(GrapheneObject):
                 ]))
 
 
+class DevelopmentCommitteeEmpowerBettingModerator(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            super().__init__(
+                OrderedDict([
+                    ('account', String(kwargs['account']))
+                ]))
+
+
 class WitnessProps(GrapheneObject):
     def __init__(self, *args, **kwargs):
         if isArgsThisClass(self, args):

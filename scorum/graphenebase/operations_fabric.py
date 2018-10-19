@@ -288,3 +288,13 @@ def close_budget_by_advertising_moderator(uuid, moderator, type):
             "type": type
         }
     )
+
+
+def development_committee_empower_betting_moderator(initiator, moderator, lifetime_sec):
+    return operations.ProposalCreate(
+        **{
+            "creator": initiator,
+            "lifetime_sec": lifetime_sec,
+            "operation": operations.DevelopmentCommitteeEmpowerBettingModerator(**{"account": moderator})
+        }
+    )
