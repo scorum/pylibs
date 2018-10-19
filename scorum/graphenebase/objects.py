@@ -9,51 +9,6 @@ except (ImportError, SystemError):
     from graphene_types import String, Optional, Id, JsonObj
 
 
-class Operation:
-    def __init__(self, op):
-        # if isinstance(op, list) and len(op) == 2:
-        #     if isinstance(op[0], int):
-        #         self.opId = op[0]
-        #         name = self.get_operation_name_for_id(self.opId)
-        #     else:
-        #         self.opId = self.operations().get(op[0], None)
-        #         name = op[0]
-        #         if self.opId is None:
-        #             raise ValueError("Unknown operation")
-        #     self.name = name[0].upper() + name[1:]  # class_name
-        #     try:
-        #         klass = self._getklass(self.name)
-        #     except Exception:
-        #         raise NotImplementedError("Unimplemented Operation %s" % self.name)
-        #     self.op = klass(op[1])
-        # else:
-        self.op = op
-        self.name = type(self.op).__name__  # also store name
-        self.opId = operations[self.to_method_name(self.name)]
-        # self.opId = self.operations()[self.name]
-
-    @staticmethod
-    def to_method_name(class_name: str):
-        """ Take a name of a class, like FeedPublish and turn it into method name like feed_publish. """
-        words = re.findall('[A-Z][^A-Z]*', class_name)
-        return '_'.join(map(str.lower, words))
-        # return 'transfer'
-
-    def operations(self):
-        return operations
-
-    def _getklass(self, name):
-        module = __import__("graphenebase.operations", fromlist=["operations"])
-        class_ = getattr(module, name)
-        return class_
-
-    def __bytes__(self):
-        return bytes(Id(self.opId)) + bytes(self.op)
-
-    def __str__(self):
-        return json.dumps([self.to_method_name(self.name), self.op.toJson()])
-
-
 class GrapheneObject(object):
     """ Core abstraction class
 
@@ -103,6 +58,33 @@ class GrapheneObject(object):
 
     def json(self):
         return self.__json__()
+
+
+class Operation:
+    def __init__(self, op: GrapheneObject):
+        self.op = op
+        self.name = type(self.op).__name__  # also store name
+        self.opId = operations[self.to_method_name(self.name)]
+
+    @staticmethod
+    def to_method_name(class_name: str):
+        """ Take a name of a class, like FeedPublish and turn it into method name like feed_publish. """
+        words = re.findall('[A-Z][^A-Z]*', class_name)
+        return '_'.join(map(str.lower, words))
+
+    def operations(self):
+        return operations
+
+    def _getklass(self, name):
+        module = __import__("graphenebase.operations", fromlist=["operations"])
+        class_ = getattr(module, name)
+        return class_
+
+    def __bytes__(self):
+        return bytes(Id(self.opId)) + bytes(self.op)
+
+    def __str__(self):
+        return json.dumps([self.to_method_name(self.name), self.op.toJson()])
 
 
 def isArgsThisClass(self, args):
