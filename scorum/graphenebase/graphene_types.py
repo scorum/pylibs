@@ -296,7 +296,7 @@ class Optional():
         return not bool(bytes(self.data))
 
 
-class Static_variant():
+class StaticVariant:
     def __init__(self, d, type_id):
         self.data = d
         self.type_id = type_id

@@ -1,8 +1,7 @@
-import json
 from collections import OrderedDict
 
-from scorum.graphenebase.graphene_types import Id, Uint16, Uint32
-from scorum.graphenebase.objects import GrapheneObject, to_method_name
+from scorum.graphenebase.graphene_types import Uint16, Uint32
+from scorum.graphenebase.objects import GrapheneObject, StaticVariantObject
 
 MARKETS = [
     "result_home_market",
@@ -23,30 +22,11 @@ MARKETS = [
 ]
 
 
-class Market:
+class Market(StaticVariantObject):
     def __init__(self, market_type):
-        self.market_type = market_type
-        self.name = self.get_market_name(market_type)
-        self.id = self.get_market_id(self.name)
-
-    @staticmethod
-    def get_market_id(name: str):
-        try:
-            return MARKETS.index(name)
-        except ValueError:
-            raise Exception("no such market %s" % name)
-
-    @staticmethod
-    def get_market_name(market_type):
-        """ Take a name of a class, like ResultHome and turn it into method name like result_home_market. """
-        class_name = type(market_type).__name__  # also store name
-        return to_method_name(class_name) + "_market"
-
-    def __bytes__(self):
-        return bytes(Id(self.id)) + bytes(self.market_type)
-
-    def __str__(self):
-        return json.dumps([self.name, self.market_type.toJson()])
+        super().__init__(market_type, MARKETS)
+        self.name = self.get_name(market_type) + "_market"
+        self.id = self.get_id(self.name)
 
 
 class ResultHome(GrapheneObject):
