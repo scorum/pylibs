@@ -281,6 +281,14 @@ def update_game_start_time(uuid, moderator, start_time):
     })
 
 
+def post_game_results(uuid, moderator, wincases):
+    return operations.PostGameResults(**{
+        'uuid': uuid,
+        'moderator': moderator,
+        'wincases': wincases
+    })
+
+
 def development_committee_empower_advertising_moderator(initiator, moderator, lifetime_sec):
     return operations.ProposalCreate(
         **{

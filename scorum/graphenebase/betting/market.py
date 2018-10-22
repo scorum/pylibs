@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from scorum.graphenebase.graphene_types import Uint16, Uint32
+from scorum.graphenebase.graphene_types import Int16
 from scorum.graphenebase.objects import GrapheneObject, StaticVariantObject
 
 MARKETS = [
@@ -47,7 +47,7 @@ class RoundHome(GrapheneObject):
 
 class Handicap(GrapheneObject):
     def __init__(self, threshold=0):
-        self.data = OrderedDict({"threshold": Uint16(threshold)})
+        self.data = OrderedDict([("threshold", Int16(threshold))])
 
         super(Handicap, self).__init__(self.data)
 
@@ -65,8 +65,8 @@ class CorrectScoreAway(GrapheneObject):
 
 
 class CorrectScore(GrapheneObject):
-    def __init__(self, threshold=0):
-        self.data = OrderedDict({"threshold": Uint32(threshold)})
+    def __init__(self, home=0, away=0):
+        self.data = OrderedDict([("home", Int16(home)), ("away", Int16(away))])
 
         super(CorrectScore, self).__init__(self.data)
 
@@ -85,20 +85,20 @@ class GoalAway(GrapheneObject):
 
 class Total(GrapheneObject):
     def __init__(self, threshold=0):
-        self.data = OrderedDict({"threshold": Uint16(threshold)})
+        self.data = OrderedDict([("threshold", Int16(threshold))])
 
         super(Total, self).__init__(self.data)
 
 
 class TotalGoalsHome(GrapheneObject):
     def __init__(self, threshold=0):
-        self.data = OrderedDict({"threshold": Uint16(threshold)})
+        self.data = OrderedDict([("threshold", Int16(threshold))])
 
         super(TotalGoalsHome, self).__init__(self.data)
 
 
 class TotalGoalsAway(GrapheneObject):
     def __init__(self, threshold=0):
-        self.data = OrderedDict({"threshold": Uint16(threshold)})
+        self.data = OrderedDict([("threshold", Int16(threshold))])
 
         super(TotalGoalsAway, self).__init__(self.data)
