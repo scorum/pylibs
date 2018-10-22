@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 try:
     from .account import PublicKey
-    from .betting import Game, Market
+    from .betting import Game, Market, Wincase
     from .chains import default_prefix
     from .graphene_types import (
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
@@ -14,7 +14,7 @@ try:
     from .objects import Operation
 except (ImportError, SystemError):
     from account import PublicKey
-    from betting import Game, Market
+    from betting import Game, Market, Wincase
     from chains import default_prefix
     from graphene_types import (
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
@@ -477,6 +477,24 @@ class CreateGame(GrapheneObject):
                     ('auto_resolve_delay_sec', Uint32(kwargs['auto_resolve_delay_sec'])),
                     ('game', Game(kwargs['game'])),
                     ('markets', Array(markets))
+                ]))
+
+
+class PostGameResults(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            wincases = [Wincase(w) for w in kwargs['wincases']]
+
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('moderator', String(kwargs['moderator'])),
+                    ('markets', Array(wincases))
                 ]))
 
 
