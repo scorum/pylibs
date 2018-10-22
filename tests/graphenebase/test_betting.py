@@ -2,7 +2,7 @@ import pytest
 
 from binascii import hexlify
 
-from scorum.graphenebase.betting import market, Game, Market
+from scorum.graphenebase.betting import market, Game, Market, wincase, Wincase
 from scorum.graphenebase import operations_fabric as ops
 from scorum.graphenebase.signedtransactions import SignedTransaction
 
@@ -38,6 +38,42 @@ def test_serialize_game_type(game, val):
 ])
 def test_serialize_markets(market_type, val):
     assert to_hex(Market(market_type())) == val
+
+
+@pytest.mark.parametrize('wincase_type, val', [
+    (wincase.ResultHomeYes, b'00'),
+    (wincase.ResultHomeNo, b'01'),
+    (wincase.ResultDrawYes, b'02'),
+    (wincase.ResultDrawNo, b'03'),
+    (wincase.ResultAwayYes, b'04'),
+    (wincase.ResultAwayNo, b'05'),
+    (wincase.RoundHomeYes, b'06'),
+    (wincase.RoundHomeNo, b'07'),
+    (wincase.HandicapOver, b'080000'),
+    (wincase.HandicapUnder, b'090000'),
+    (wincase.CorrectScoreHomeYes, b'0a'),
+    (wincase.CorrectScoreHomeNo, b'0b'),
+    (wincase.CorrectScoreDrawYes, b'0c'),
+    (wincase.CorrectScoreDrawNo, b'0d'),
+    (wincase.CorrectScoreAwayYes, b'0e'),
+    (wincase.CorrectScoreAwayNo, b'0f'),
+    (wincase.CorrectScoreYes, b'1000000000'),
+    (wincase.CorrectScoreNo, b'1100000000'),
+    (wincase.GoalHomeYes, b'12'),
+    (wincase.GoalHomeNo, b'13'),
+    (wincase.GoalBothYes, b'14'),
+    (wincase.GoalBothNo, b'15'),
+    (wincase.GoalAwayYes, b'16'),
+    (wincase.GoalAwayNo, b'17'),
+    (wincase.TotalOver, b'180000'),
+    (wincase.TotalUnder, b'190000'),
+    (wincase.TotalGoalsHomeOver, b'1a0000'),
+    (wincase.TotalGoalsHomeUnder, b'1b0000'),
+    (wincase.TotalGoalsAwayOver, b'1c0000'),
+    (wincase.TotalGoalsAwayUnder, b'1d0000')
+])
+def test_serialize_wincases(wincase_type, val):
+    assert to_hex(Wincase(wincase_type())) == val
 
 
 @pytest.mark.parametrize('game,markets,result_bin', [

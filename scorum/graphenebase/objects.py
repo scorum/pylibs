@@ -64,13 +64,7 @@ class Operation:
     def __init__(self, op: GrapheneObject):
         self.op = op
         self.name = type(self.op).__name__  # also store name
-        self.opId = operations[self.to_method_name(self.name)].value
-
-    @staticmethod
-    def to_method_name(class_name: str):
-        """ Take a name of a class, like FeedPublish and turn it into method name like feed_publish. """
-        words = re.findall('[A-Z][^A-Z]*', class_name)
-        return '_'.join(map(str.lower, words))
+        self.opId = operations[to_method_name(self.name)].value
 
     def operations(self):
         return operations
@@ -84,8 +78,14 @@ class Operation:
         return bytes(Id(self.opId)) + bytes(self.op)
 
     def __str__(self):
-        return json.dumps([self.to_method_name(self.name), self.op.toJson()])
+        return json.dumps([to_method_name(self.name), self.op.toJson()])
 
 
 def isArgsThisClass(self, args):
     return (len(args) == 1 and type(args[0]).__name__ == type(self).__name__)
+
+
+def to_method_name(class_name: str):
+    """ Take a name of a class, like FeedPublish and turn it into method name like feed_publish. """
+    words = re.findall('[A-Z][^A-Z]*', class_name)
+    return '_'.join(map(str.lower, words))

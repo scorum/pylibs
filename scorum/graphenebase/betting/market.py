@@ -1,9 +1,8 @@
 import json
-import re
 from collections import OrderedDict
 
 from scorum.graphenebase.graphene_types import Id, Uint16, Uint32
-from scorum.graphenebase.objects import GrapheneObject
+from scorum.graphenebase.objects import GrapheneObject, to_method_name
 
 MARKETS = [
     "result_home_market",
@@ -41,9 +40,7 @@ class Market:
     def get_market_name(market_type):
         """ Take a name of a class, like ResultHome and turn it into method name like result_home_market. """
         class_name = type(market_type).__name__  # also store name
-        words = re.findall('[A-Z][^A-Z]*', class_name)
-
-        return '_'.join(map(str.lower, words)) + "_market"
+        return to_method_name(class_name) + "_market"
 
     def __bytes__(self):
         return bytes(Id(self.id)) + bytes(self.market_type)
