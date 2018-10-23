@@ -8,7 +8,7 @@ try:
     from .chains import default_prefix
     from .graphene_types import (
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
-        Set, Map, BudgetType, Uuid
+        Set, Map, BudgetType, Uuid, Odds16
     )
     from .objects import GrapheneObject, isArgsThisClass
     from .objects import Operation
@@ -18,7 +18,7 @@ except (ImportError, SystemError):
     from chains import default_prefix
     from graphene_types import (
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
-        Set, Map, BudgetType, Uuid
+        Set, Map, BudgetType, Uuid, Odds16
     )
     from objects import GrapheneObject, isArgsThisClass
     from objects import Operation
@@ -495,6 +495,26 @@ class PostGameResults(GrapheneObject):
                     ('uuid', Uuid(kwargs['uuid'])),
                     ('moderator', String(kwargs['moderator'])),
                     ('markets', Array(wincases))
+                ]))
+
+
+class PostBet(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            numerator, denominator = kwargs['odds']
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('better', String(kwargs['better'])),
+                    ('game_uuid', Uuid(kwargs['game_uuid'])),
+                    ('wincase', Wincase(kwargs['wincase'])),
+                    ('odds', Odds16(numerator, denominator)),
+                    ('stake', Amount(kwargs['stake'])),
+                    ('live', Bool(kwargs['live']))
                 ]))
 
 

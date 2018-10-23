@@ -289,6 +289,18 @@ def post_game_results(uuid, moderator, wincases):
     })
 
 
+def post_bet(uuid, better, game_uuid, wincase, odds, stake, live):
+    return operations.PostBet(**{
+        'uuid': uuid,
+        'better': better,
+        'game_uuid': game_uuid,
+        'wincase': wincase,
+        'odds': odds,
+        'stake': stake,
+        'live': live
+    })
+
+
 def development_committee_empower_advertising_moderator(initiator, moderator, lifetime_sec):
     return operations.ProposalCreate(
         **{
