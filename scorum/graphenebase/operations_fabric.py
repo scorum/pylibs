@@ -301,6 +301,13 @@ def post_bet(uuid, better, game_uuid, wincase, odds, stake, live):
     })
 
 
+def cancel_pending_bets(uuids, better):
+    return operations.CancelPendingBets(**{
+        'uuids': uuids,
+        'better': better
+    })
+
+
 def development_committee_empower_advertising_moderator(initiator, moderator, lifetime_sec):
     return operations.ProposalCreate(
         **{
