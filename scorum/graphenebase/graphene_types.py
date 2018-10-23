@@ -72,6 +72,18 @@ class Int16():
         return '%d' % self.data
 
 
+class Odds16:
+    def __init__(self, numerator, denominator):
+        self.numerator = int(numerator)
+        self.denominator = int(denominator)
+
+    def __bytes__(self):
+        return bytes(Int16(self.numerator)) + bytes(Int16(self.denominator))
+
+    def __str__(self):
+        return '%d, %d' % (self.numerator, self.denominator)
+
+
 class Uint16():
     def __init__(self, d):
         self.data = int(d)

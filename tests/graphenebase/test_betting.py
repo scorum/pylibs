@@ -151,3 +151,30 @@ def test_serialize_post_game_results_to_hex(wincases, result_bin):
     op = ops.post_game_results("e629f9aa-6b2c-46aa-8fa8-36770e7a7a5f", "admin", wincases)
     signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
     assert hexlify(bytes(signed_ops.data[0])) == result_bin
+
+
+@pytest.mark.parametrize('wincase,odds,result_bin', [
+    (
+        wincase.CorrectScoreYes(17, 23),
+        [1, 2],
+        b'28e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696ee629f9aa6b2c46aa8fa836770e7a7a5f10110017000100020000e40b5402'
+        b'000000095343520000000001'
+    ),
+    (
+        wincase.HandicapOver(-500),
+        [3, 2],
+        b'28e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696ee629f9aa6b2c46aa8fa836770e7a7a5f080cfe0300020000e40b5402'
+        b'000000095343520000000001'
+    ),
+    (
+        wincase.RoundHomeNo(),
+        [4, 7],
+        b'28e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696ee629f9aa6b2c46aa8fa836770e7a7a5f070400070000e40b5402'
+        b'000000095343520000000001'
+    )
+])
+def test_serialize_post_bet_to_hex(wincase, odds, result_bin):
+    uuid = "e629f9aa-6b2c-46aa-8fa8-36770e7a7a5f"
+    op = ops.post_bet(uuid, "admin", uuid, wincase, odds, "10.000000000 SCR", True)
+    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
+    assert hexlify(bytes(signed_ops.data[0])) == result_bin
