@@ -178,3 +178,11 @@ def test_serialize_post_bet_to_hex(wincase, odds, result_bin):
     op = ops.post_bet(uuid, "admin", uuid, wincase, odds, "10.000000000 SCR", True)
     signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
     assert hexlify(bytes(signed_ops.data[0])) == result_bin
+
+
+def test_serialize_cancel_pending_bets_to_hex():
+    uuid = "e629f9aa-6b2c-46aa-8fa8-36770e7a7a5f"
+    result_bin = b'2901e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e'
+    op = ops.cancel_pending_bets([uuid], "admin")
+    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
+    assert hexlify(bytes(signed_ops.data[0])) == result_bin

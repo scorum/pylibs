@@ -480,44 +480,6 @@ class CreateGame(GrapheneObject):
                 ]))
 
 
-class PostGameResults(GrapheneObject):
-    def __init__(self, *args, **kwargs):
-        if isArgsThisClass(self, args):
-            self.data = args[0].data
-        else:
-            if len(args) == 1 and len(kwargs) == 0:
-                kwargs = args[0]
-
-            wincases = [Wincase(w) for w in kwargs['wincases']]
-
-            super().__init__(
-                OrderedDict([
-                    ('uuid', Uuid(kwargs['uuid'])),
-                    ('moderator', String(kwargs['moderator'])),
-                    ('markets', Array(wincases))
-                ]))
-
-
-class PostBet(GrapheneObject):
-    def __init__(self, *args, **kwargs):
-        if isArgsThisClass(self, args):
-            self.data = args[0].data
-        else:
-            if len(args) == 1 and len(kwargs) == 0:
-                kwargs = args[0]
-            numerator, denominator = kwargs['odds']
-            super().__init__(
-                OrderedDict([
-                    ('uuid', Uuid(kwargs['uuid'])),
-                    ('better', String(kwargs['better'])),
-                    ('game_uuid', Uuid(kwargs['game_uuid'])),
-                    ('wincase', Wincase(kwargs['wincase'])),
-                    ('odds', Odds16(numerator, denominator)),
-                    ('stake', Amount(kwargs['stake'])),
-                    ('live', Bool(kwargs['live']))
-                ]))
-
-
 class CancelGame(GrapheneObject):
     def __init__(self, *args, **kwargs):
         if isArgsThisClass(self, args):
@@ -564,6 +526,59 @@ class UpdateGameStartTime(GrapheneObject):
                     ('uuid', Uuid(kwargs['uuid'])),
                     ('moderator', String(kwargs['moderator'])),
                     ('start_time', PointInTime(kwargs['start_time']))
+                ]))
+
+
+class PostGameResults(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            wincases = [Wincase(w) for w in kwargs['wincases']]
+
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('moderator', String(kwargs['moderator'])),
+                    ('markets', Array(wincases))
+                ]))
+
+
+class PostBet(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            numerator, denominator = kwargs['odds']
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('better', String(kwargs['better'])),
+                    ('game_uuid', Uuid(kwargs['game_uuid'])),
+                    ('wincase', Wincase(kwargs['wincase'])),
+                    ('odds', Odds16(numerator, denominator)),
+                    ('stake', Amount(kwargs['stake'])),
+                    ('live', Bool(kwargs['live']))
+                ]))
+
+
+class CancelPendingBets(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            uuids = [Uuid(u) for u in kwargs['uuids']]
+            super().__init__(
+                OrderedDict([
+                    ('bet_uuids', Array(uuids)),
+                    ('better', String(kwargs['better']))
                 ]))
 
 
