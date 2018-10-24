@@ -4,28 +4,28 @@ from scorum.graphenebase.graphene_types import Int16
 from scorum.graphenebase.objects import GrapheneObject, StaticVariantObject
 
 MARKETS = [
-    "result_home_market",
-    "result_draw_market",
-    "result_away_market",
-    "round_home_market",
-    "handicap_market",
-    "correct_score_home_market",
-    "correct_score_draw_market",
-    "correct_score_away_market",
-    "correct_score_market",
-    "goal_home_market",
-    "goal_both_market",
-    "goal_away_market",
-    "total_market",
-    "total_goals_home_market",
-    "total_goals_away_market"
+    "result_home",
+    "result_draw",
+    "result_away",
+    "round_home",
+    "handicap",
+    "correct_score_home",
+    "correct_score_draw",
+    "correct_score_away",
+    "correct_score",
+    "goal_home",
+    "goal_both",
+    "goal_away",
+    "total",
+    "total_goals_home",
+    "total_goals_away"
 ]
 
 
 class Market(StaticVariantObject):
     def __init__(self, market_type):
         super().__init__(market_type, MARKETS)
-        self.name = self.get_name(market_type) + "_market"
+        self.name = self.get_name(market_type)
         self.id = self.get_id(self.name)
 
 
