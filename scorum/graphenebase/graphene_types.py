@@ -74,14 +74,13 @@ class Int16():
 
 class Odds16:
     def __init__(self, numerator, denominator):
-        self.numerator = int(numerator)
-        self.denominator = int(denominator)
+        self.odds = {"numerator": numerator, "denominator": denominator}
 
     def __bytes__(self):
-        return bytes(Int16(self.numerator)) + bytes(Int16(self.denominator))
+        return bytes(Int16(self.odds["numerator"])) + bytes(Int16(self.odds["denominator"]))
 
     def __str__(self):
-        return '%d, %d' % (self.numerator, self.denominator)
+        return json.dumps(self.odds)
 
 
 class Uint16():

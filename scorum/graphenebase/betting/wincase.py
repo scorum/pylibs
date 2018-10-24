@@ -4,36 +4,36 @@ from scorum.graphenebase.graphene_types import Int16
 from scorum.graphenebase.objects import GrapheneObject, StaticVariantObject
 
 WINCASES = [
-    "result_home_yes",
-    "result_home_no",
-    "result_draw_yes",
-    "result_draw_no",
-    "result_away_yes",
-    "result_away_no",
-    "round_home_yes",
-    "round_home_no",
-    "handicap_over",
-    "handicap_under",
-    "correct_score_home_yes",
-    "correct_score_home_no",
-    "correct_score_draw_yes",
-    "correct_score_draw_no",
-    "correct_score_away_yes",
-    "correct_score_away_no",
-    "correct_score_yes",
-    "correct_score_no",
-    "goal_home_yes",
-    "goal_home_no",
-    "goal_both_yes",
-    "goal_both_no",
-    "goal_away_yes",
-    "goal_away_no",
-    "total_over",
-    "total_under",
-    "total_goals_home_over",
-    "total_goals_home_under",
-    "total_goals_away_over",
-    "total_goals_away_under"
+    "result_home::yes",
+    "result_home::no",
+    "result_draw::yes",
+    "result_draw::no",
+    "result_away::yes",
+    "result_away::no",
+    "round_home::yes",
+    "round_home::no",
+    "handicap::over",
+    "handicap::under",
+    "correct_score_home::yes",
+    "correct_score_home::no",
+    "correct_score_draw::yes",
+    "correct_score_draw::no",
+    "correct_score_away::yes",
+    "correct_score_away::no",
+    "correct_score::yes",
+    "correct_score::no",
+    "goal_home::yes",
+    "goal_home::no",
+    "goal_both::yes",
+    "goal_both::no",
+    "goal_away::yes",
+    "goal_away::no",
+    "total::over",
+    "total::under",
+    "total_goals_home::over",
+    "total_goals_home::under",
+    "total_goals_away::over",
+    "total_goals_away::under"
 ]
 
 
@@ -41,7 +41,7 @@ class Wincase(StaticVariantObject):
     def __init__(self, wincase_type):
         super().__init__(wincase_type, WINCASES)
         self.wincase_type = wincase_type
-        self.name = self.get_name(wincase_type)
+        self.name = "::".join(self.get_name(wincase_type).rsplit('_', 1))
         self.id = self.get_id(self.name)
 
 
