@@ -1,13 +1,21 @@
-import struct
-from enum import Enum
+from scorum.graphenebase.objects import GrapheneObject, StaticVariantObject
+
+GAMES = [
+    'soccer_game',
+    'hockey_game'
+]
 
 
-class Game(Enum):
-    soccer = 0
-    hockey = 1
+class Game(StaticVariantObject):
+    def __init__(self, game_type):
+        super().__init__(game_type, GAMES)
+        self.name = self.get_name(game_type) + "_game"
+        self.id = self.get_id(self.name)
 
-    def __bytes__(self):
-        return struct.pack("<B", self.value)
 
-    def __str__(self):
-        return "{0}".format(self.name)
+class Soccer(GrapheneObject):
+    pass
+
+
+class Hockey(GrapheneObject):
+    pass
