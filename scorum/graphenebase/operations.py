@@ -543,7 +543,7 @@ class PostGameResults(GrapheneObject):
                 OrderedDict([
                     ('uuid', Uuid(kwargs['uuid'])),
                     ('moderator', String(kwargs['moderator'])),
-                    ('markets', Array(wincases))
+                    ('wincases', Array(wincases))
                 ]))
 
 
