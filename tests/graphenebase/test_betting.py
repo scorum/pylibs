@@ -81,27 +81,27 @@ def test_serialize_wincases_to_hex(wincase_type, val):
     (
         game.Soccer(),
         [],
-        b'23e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e0967616d65206e616d659b2a645b210000000000'
+        b'23e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e027b7d9b2a645b210000000000'
     ),
     (
         game.Soccer(),
         [market.Total(1000)],
-        b'23e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e0967616d65206e616d659b2a645b2100000000010ce803'
+        b'23e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e027b7d9b2a645b2100000000010ce803'
     ),
     (
         game.Hockey(),
         [],
-        b'23e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e0967616d65206e616d659b2a645b210000000100'
+        b'23e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e027b7d9b2a645b210000000100'
     ),
     (
         game.Hockey(),
         [market.CorrectScore(home=1, away=2)],
-        b'23e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e0967616d65206e616d659b2a645b2100000001010801000200'
+        b'23e629f9aa6b2c46aa8fa836770e7a7a5f0561646d696e027b7d9b2a645b2100000001010801000200'
     )
 ])
 def test_serialize_create_game_to_hex(game_type, market_types, result_bin):
     op = ops.create_game(
-        'e629f9aa-6b2c-46aa-8fa8-36770e7a7a5f', "admin", "game name", "2018-08-03T10:12:43", 33,
+        'e629f9aa-6b2c-46aa-8fa8-36770e7a7a5f', "admin", "{}", "2018-08-03T10:12:43", 33,
         game_type, market_types
     )
     signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
