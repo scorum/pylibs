@@ -8,7 +8,7 @@ try:
     from .chains import default_prefix
     from .graphene_types import (
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
-        Set, Map, BudgetType, Uuid, Odds16
+        Set, Map, BudgetType, Uuid, Odds32
     )
     from .objects import GrapheneObject, isArgsThisClass
     from .objects import Operation
@@ -18,7 +18,7 @@ except (ImportError, SystemError):
     from chains import default_prefix
     from graphene_types import (
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
-        Set, Map, BudgetType, Uuid, Odds16
+        Set, Map, BudgetType, Uuid, Odds32
     )
     from objects import GrapheneObject, isArgsThisClass
     from objects import Operation
@@ -561,7 +561,7 @@ class PostBet(GrapheneObject):
                     ('better', String(kwargs['better'])),
                     ('game_uuid', Uuid(kwargs['game_uuid'])),
                     ('wincase', Wincase(kwargs['wincase'])),
-                    ('odds', Odds16(numerator, denominator)),
+                    ('odds', Odds32(numerator, denominator)),
                     ('stake', Amount(kwargs['stake'])),
                     ('live', Bool(kwargs['live']))
                 ]))
