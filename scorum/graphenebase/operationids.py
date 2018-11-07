@@ -71,8 +71,11 @@ class Operations(OperationsBase):
     update_game_markets = ()
     update_game_start_time = ()
     post_game_results = ()
+
     post_bet = ()
     cancel_pending_bets = ()
+
+    delegate_sp_from_reg_pool = ()
 
     # virtual operations
     author_reward = ()
@@ -94,14 +97,18 @@ class Operations(OperationsBase):
     acc_to_devpool_vesting_withdraw = ()
     devpool_to_devpool_vesting_withdraw = ()
     proposal_virtual = ()
+
     budget_outgo = ()
     budget_owner_income = ()
     active_sp_holders_reward_legacy = ()
     budget_closing = ()
+
     bets_matched = ()
     game_status_changed = ()
     bet_resolved = ()
     bet_cancelled = ()
+    bet_restored = ()
+    bet_updated = ()
 
 
 class ProposalOperations(OperationsBase):

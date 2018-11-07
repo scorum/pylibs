@@ -116,3 +116,12 @@ def test_serialize_close_budget_to_byte(budget_type, result_bin):
     op = ops.close_budget_operation("6DCD3132-E5DF-480A-89A8-91984BCA0A09", "initdelegate", budget_type)
     signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
     assert hexlify(bytes(signed_ops.data[0])) == result_bin
+
+
+def test_serialize_delegate_sp_from_reg_pool():
+    op = ops.delegate_sp_from_reg_pool("initdelegate", "alice", Amount("10.000000000 SP"))
+    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
+
+    result_bin = b'2a0c696e697464656c656761746505616c69636500e40b54020000000953500000000000'
+    assert hexlify(bytes(signed_ops.data[0])) == result_bin
+

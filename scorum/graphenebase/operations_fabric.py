@@ -246,6 +246,14 @@ def delegate_scorumpower(delegator, delegatee, scorumpower):
     )
 
 
+def delegate_sp_from_reg_pool(reg_committee_member, delegatee, scorumpower):
+    return operations.DelegateSpFromRegPool(
+        **{'reg_committee_member': reg_committee_member,
+           'delegatee': delegatee,
+           'scorumpower': str(scorumpower)}
+    )
+
+
 def create_game(uuid, moderator, json_metadata, start_time, auto_resolve_delay_sec, game, markets):
     return operations.CreateGame(**{
         'uuid': uuid,
