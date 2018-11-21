@@ -10,8 +10,7 @@ try:
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
         Set, Map, BudgetType, Uuid, Odds32
     )
-    from .objects import GrapheneObject, isArgsThisClass
-    from .objects import Operation
+    from .objects import GrapheneObject, isArgsThisClass, Operation, Optional
 except (ImportError, SystemError):
     from account import PublicKey
     from betting import Game, Market, Wincase
@@ -20,8 +19,7 @@ except (ImportError, SystemError):
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
         Set, Map, BudgetType, Uuid, Odds32
     )
-    from objects import GrapheneObject, isArgsThisClass
-    from objects import Operation
+    from objects import GrapheneObject, isArgsThisClass, Operation, Optional
 
 asset_precision = {
     "SCR": 9,
@@ -224,6 +222,31 @@ class AccountCreate(GrapheneObject):
                 ('owner', Permission(kwargs["owner"], prefix=prefix)),
                 ('active', Permission(kwargs["active"], prefix=prefix)),
                 ('posting', Permission(kwargs["posting"], prefix=prefix)),
+                ('memo_key', PublicKey(kwargs["memo_key"], prefix=prefix)),
+                ('json_metadata', String(meta)),
+            ]))
+
+
+class AccountUpdate(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            prefix = kwargs.pop("prefix", default_prefix)
+
+            meta = ""
+            if "json_metadata" in kwargs and kwargs["json_metadata"]:
+                if isinstance(kwargs["json_metadata"], dict):
+                    meta = json.dumps(kwargs["json_metadata"])
+                else:
+                    meta = kwargs["json_metadata"]
+            super().__init__(OrderedDict([
+                ('account', String(kwargs["account"])),
+                ('owner', Optional(Permission(kwargs["owner"], prefix=prefix))),
+                ('active', Optional(Permission(kwargs["active"], prefix=prefix))),
+                ('posting', Optional(Permission(kwargs["posting"], prefix=prefix))),
                 ('memo_key', PublicKey(kwargs["memo_key"], prefix=prefix)),
                 ('json_metadata', String(meta)),
             ]))

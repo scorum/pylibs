@@ -103,6 +103,43 @@ def account_create_operation(
     )
 
 
+def account_update_operation(
+    account: str,
+    owner: str,
+    active: str,
+    posting: str,
+    memo,
+    json_meta,
+):
+    owner_pubkey = owner if type(owner) is PublicKey else PublicKey(owner)
+    active_pubkey = active if type(active) is PublicKey else PublicKey(active)
+    posting_pubkey = posting if type(posting) is PublicKey else PublicKey(posting)
+    memo_pubkey = memo if type(memo) is PublicKey else PublicKey(memo)
+
+    owner_key_authority = [[str(owner_pubkey), 1]]
+    active_key_authority = [[str(active_pubkey), 1]]
+    posting_key_authority = [[str(posting_pubkey), 1]]
+    owner_accounts_authority = []
+    active_accounts_authority = []
+    posting_accounts_authority = []
+
+    return operations.AccountUpdate(
+        **{
+           'account': account,
+           'owner': {'account_auths': owner_accounts_authority,
+                     'key_auths': owner_key_authority,
+                     'weight_threshold': 1},
+           'active': {'account_auths': active_accounts_authority,
+                      'key_auths': active_key_authority,
+                      'weight_threshold': 1},
+           'posting': {'account_auths': posting_accounts_authority,
+                       'key_auths': posting_key_authority,
+                       'weight_threshold': 1},
+           'memo_key': str(memo_pubkey),
+           'json_metadata': json_meta}
+    )
+
+
 def account_create_by_committee_operation(
     creator: str,
     name: str,

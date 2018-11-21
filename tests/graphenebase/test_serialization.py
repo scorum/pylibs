@@ -125,3 +125,13 @@ def test_serialize_delegate_sp_from_reg_pool():
     result_bin = b'2a0c696e697464656c656761746505616c69636500e40b54020000000953500000000000'
     assert hexlify(bytes(signed_ops.data[0])) == result_bin
 
+
+@pytest.mark.skip("Expected 'result_bin' is incorrect")
+def test_serialize_account_update_to_hex():
+    key = "5HwcXSqU8iU7xobfXv3z872HHjCsx8fMfyScq7tcEB2dMaaWMct"
+    op = ops.account_update_operation("alice", key, key, key, key, "{}")
+    signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
+
+    result_bin = b'2a0c696e697464656c656761746505616c69636500e40b54020000000953500000000000'
+    assert hexlify(bytes(signed_ops.data[0])) == result_bin
+
