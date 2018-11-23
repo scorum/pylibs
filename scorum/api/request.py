@@ -55,7 +55,7 @@ class Request:
         payload = to_payload(method, api, args)
         self._duration = 0
 
-        while retries:
+        while retries > 0:
             try:
                 url_object = urlparse(url)
 
@@ -75,21 +75,18 @@ class Request:
                 res = conn.getresponse()
                 data = res.read().decode('utf-8')
 
-                retries = 0
-            except Exception as e:
+                try:
+                    response = json.loads(data)
+                    return response["result"]
+                except (ValueError, TypeError) as error:
+                    print("request failed with code: %d: %s" % (res.code, res.msg))
+                    print(data)
+                    return None
+
+            except http.client.HTTPException as e:
                 print("error during request")
                 print(e)
                 time.sleep(0.5)
+                retries -= 1
 
-        try:
-            response = json.loads(data)
-
-            return response["result"]
-        except ValueError as error:
-            print("request failed with code: %d: %s" % (res.code, res.msg))
-            print(data)
-            return None
-        except TypeError as error:
-            print("request failed with code: %d: %s" % (res.code, res.msg))
-            print(data)
-            return None
+        return None
