@@ -83,7 +83,7 @@ class Request:
                     print(data)
                     return None
 
-            except http.client.HTTPException as e:
+            except (ConnectionResetError, http.client.HTTPException) as e:
                 print("error during request")
                 print(e)
                 time.sleep(0.5)
