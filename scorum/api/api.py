@@ -1,4 +1,5 @@
 from . import call
+from .request import Request
 
 
 def lookup_account_names(url, names):
@@ -14,7 +15,8 @@ def lookup_accounts(url: str, start_account: str, limit: int):
 
 
 def get_discussions_by_created(url: str, query: dict):
-    return call(url, "tags_api", "get_discussions_by_created", [query])
+    r = Request()
+    return r.call(url, "tags_api", "get_discussions_by_created", [query])
 
 
 def get_ops_in_block(url, start, limit):
