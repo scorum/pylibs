@@ -44,6 +44,9 @@ class Wincase(StaticVariantObject):
         self.name = "::".join(self.get_name(wincase_type).rsplit('_', 1))
         self.id = self.get_id(self.name)
 
+    def __eq__(self, other):
+        return str(self) == str(other)
+
 
 class ResultHomeYes(GrapheneObject):
     pass
@@ -193,3 +196,55 @@ class TotalGoalsAwayUnder(GrapheneObject):
         self.data = OrderedDict([("threshold", Int16(threshold))])
 
         super(TotalGoalsAwayUnder, self).__init__(self.data)
+
+
+WINCASES_MAP = {
+    "result_home::yes": ResultHomeYes,
+    "result_home::no": ResultHomeNo,
+    "result_draw::yes": ResultDrawYes,
+    "result_draw::no": ResultDrawNo,
+    "result_away::yes": ResultAwayYes,
+    "result_away::no": ResultAwayNo,
+    "round_home::yes": RoundHomeYes,
+    "round_home::no": RoundHomeNo,
+    "handicap::over": HandicapOver,
+    "handicap::under": HandicapUnder,
+    "correct_score_home::yes": CorrectScoreHomeYes,
+    "correct_score_home::no": CorrectScoreHomeNo,
+    "correct_score_draw::yes": CorrectScoreDrawYes,
+    "correct_score_draw::no": CorrectScoreDrawNo,
+    "correct_score_away::yes": CorrectScoreAwayYes,
+    "correct_score_away::no": CorrectScoreAwayNo,
+    "correct_score::yes": CorrectScoreYes,
+    "correct_score::no": CorrectScoreNo,
+    "goal_home::yes": GoalHomeYes,
+    "goal_home::no": GoalHomeNo,
+    "goal_both::yes": GoalBothYes,
+    "goal_both::no": GoalBothNo,
+    "goal_away::yes": GoalAwayYes,
+    "goal_away::no": GoalAwayNo,
+    "total::over": TotalOver,
+    "total::under": TotalUnder,
+    "total_goals_home::over": TotalGoalsHomeOver,
+    "total_goals_home::under": TotalGoalsHomeUnder,
+    "total_goals_away::over": TotalGoalsAwayOver,
+    "total_goals_away::under": TotalGoalsAwayUnder
+}
+
+
+def create_obj_from_json(wc):
+    """
+    :param list wc: Wincase name and type parameters, example ["handicap::over", {"threashold": 1000}]
+    :return: Wincase class object
+    """
+    if len(wc) != 2:
+        raise ValueError("Unexpected json value was given.")
+    name, kwargs = wc
+    return Wincase(WINCASES_MAP[name](**kwargs))
+
+
+def opposite(name: str):
+    idx = WINCASES.index(name)
+    if idx % 2:
+        return WINCASES[idx - 1]
+    return WINCASES[idx + 1]

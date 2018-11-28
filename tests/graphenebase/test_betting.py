@@ -1,4 +1,5 @@
 import pytest
+import json
 
 from binascii import hexlify
 
@@ -187,3 +188,22 @@ def test_serialize_cancel_pending_bets_to_hex():
     op = ops.cancel_pending_bets([uuid], "admin")
     signed_ops = SignedTransaction.cast_operations_to_array_of_opklass([op])
     assert hexlify(bytes(signed_ops.data[0])) == result_bin
+
+
+@pytest.mark.parametrize('wc', [
+    wincase.HandicapOver(-1000),
+    wincase.CorrectScoreNo(3, 4),
+    wincase.ResultDrawYes(),
+    wincase.TotalGoalsAwayOver(500)
+])
+def test_get_wincase_obj_from_json(wc):
+    assert Wincase(wc) == wincase.create_obj_from_json(json.loads(str(Wincase(wc))))
+
+
+@pytest.mark.parametrize('name, expected', [
+    ("result_home::yes", "result_home::no"),
+    ("total_goals_away::under", "total_goals_away::over"),
+    ("correct_score_draw::no", "correct_score_draw::yes")
+])
+def test_get_wincase_opposite(name, expected):
+    assert expected == wincase.opposite(name)
