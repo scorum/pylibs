@@ -1,82 +1,130 @@
-operations = {
-    'vote':                                       0,
-    'comment':                                    1,
-    'transfer':                                   2,
-    'transfer_to_scorumpower':                    3,
-    'withdraw_scorumpower':                       4,
-    'account_create_by_committee':                5,
-    'account_create':                             6,
-    'account_create_with_delegation':             7,
-    'account_update':                             8,
-    'witness_update':                             9,
-    'account_witness_vote':                       10,
-    'account_witness_proxy':                      11,
-    'delete_comment':                             12,
-    'comment_options':                            13,
-    'set_withdraw_scorumpower_route_to_account':  14,
-    'set_withdraw_scorumpower_route_to_dev_pool': 15,
-    'prove_authority':                            16,
-    'request_account_recovery':                   17,
-    'recover_account':                            18,
-    'change_recovery_account':                    19,
-    'escrow_approve':                             20,
-    'escrow_dispute':                             21,
-    'escrow_release':                             22,
-    'escrow_transfer':                            23,
-    'decline_voting_rights':                      24,
-    'delegate_scorumpower_shares':                25,
-    'create_budget':                              26,
-    'close_budget':                               27,
-    'proposal_vote':                              28,
-    'proposal_create':                            29,
-    'atomicswap_initiate':                        30,
-    'atomicswap_redeem':                          31,
-    'atomicswap_refund':                          32,
-    'close_budget_by_advertising_moderator':      33,
-    'update_budget':                              34,
+from enum import Enum
+
+
+class AutoNumber(Enum):
+    def __new__(cls):
+        value = len(cls.__members__) if len(cls.__members__) else 0
+        obj = object.__new__(cls)
+        obj._value_ = value
+        return obj
+
+
+class OperationsBase(AutoNumber):
+    def __str__(self):
+        return self.name
+
+    def __int__(self):
+        return self.value
+
+
+class Operations(OperationsBase):
+    vote = ()
+    comment = ()
+
+    transfer = ()
+    transfer_to_scorumpower = ()
+    withdraw_scorumpower = ()
+
+    account_create_by_committee = ()
+    account_create = ()
+    account_create_with_delegation = ()
+    account_update = ()
+
+    witness_update = ()
+    account_witness_vote = ()
+    account_witness_proxy = ()
+
+    delete_comment = ()
+    comment_options = ()
+    set_withdraw_scorumpower_route_to_account = ()
+    set_withdraw_scorumpower_route_to_dev_pool = ()
+
+    prove_authority = ()
+
+    request_account_recovery = ()
+    recover_account = ()
+    change_recovery_account = ()
+    escrow_approve = ()
+    escrow_dispute = ()
+    escrow_release = ()
+    escrow_transfer = ()
+
+    decline_voting_rights = ()
+    delegate_scorumpower_shares = ()
+
+    create_budget = ()
+    close_budget = ()
+
+    proposal_vote = ()
+    proposal_create = ()
+
+    atomicswap_initiate = ()
+    atomicswap_redeem = ()
+    atomicswap_refund = ()
+
+    close_budget_by_advertising_moderator = ()
+    update_budget = ()
 
     # betting
-    "create_game": 48,
-    "cancel_game": 49,
-    "update_game_markets": 50,
-    "update_game_start_time": 51,
-    "post_game_results": 52,
+    create_game = ()
+    cancel_game = ()
+    update_game_markets = ()
+    update_game_start_time = ()
+    post_game_results = ()
+
+    post_bet = ()
+    cancel_pending_bets = ()
+
+    delegate_sp_from_reg_pool = ()
 
     # virtual operations
-    'author_reward':                              35,
-    'comment_benefactor_reward':                  36,
-    'comment_payout_update':                      37,
-    'comment_reward':                             38,
-    'curation_reward':                            39,
-    'hardfork':                                   40,
-    'producer_reward':                            41,
-    'active_sp_holders_reward':                   42,
-    'return_scorumpower_delegation':              43,
-    'shutdown_witness':                           44,
-    'witness_miss_block':                         45,
-    'expired_contract_refund':                    46,
-    'acc_finished_vesting_withdraw':              47,
-    'devpool_finished_vesting_withdraw':          48,
-    'acc_to_acc_vesting_withdraw':                49,
-    'devpool_to_acc_vesting_withdraw':            50,
-    'acc_to_devpool_vesting_withdraw':            51,
-    'devpool_to_devpool_vesting_withdraw':        52,
-    'proposal_virtual_operation':                 53,
-    'budget_outgo_operation':                     54,
-    'budget_owner_income_operation':              55,
-    'active_sp_holders_reward_legacy_operation':  56,
-    'budget_closing_operation':                   57,
+    author_reward = ()
+    comment_benefactor_reward = ()
+    comment_payout_update = ()
+    comment_reward = ()
+    curation_reward = ()
+    hardfork = ()
+    producer_reward = ()
+    active_sp_holders_reward = ()
+    return_scorumpower_delegation = ()
+    shutdown_witness = ()
+    witness_miss_block = ()
+    expired_contract_refund = ()
+    acc_finished_vesting_withdraw = ()
+    devpool_finished_vesting_withdraw = ()
+    acc_to_acc_vesting_withdraw = ()
+    devpool_to_acc_vesting_withdraw = ()
+    acc_to_devpool_vesting_withdraw = ()
+    devpool_to_devpool_vesting_withdraw = ()
+    proposal_virtual = ()
 
-    # proposal operations
-    'registration_committee_add_member':          0,
-    'registration_committee_exclude_member':      1,
-    'registration_committee_change_quorum':       2,
-    'development_committee_add_member':           3,
-    'development_committee_exclude_member':       4,
-    'development_committee_change_quorum':        5,
-    'development_committee_withdraw_vesting':     6,
-    'development_committee_transfer':             7,
-    'development_committee_empower_advertising_moderator': 8,
-    'development_committee_change_post_budgets_auction_properties': 9,
-    'development_committee_change_banner_budgets_auction_properties': 10
-}
+    budget_outgo = ()
+    budget_owner_income = ()
+    active_sp_holders_reward_legacy = ()
+    budget_closing = ()
+
+    bets_matched = ()
+    game_status_changed = ()
+    bet_resolved = ()
+    bet_cancelled = ()
+    bet_restored = ()
+    bet_updated = ()
+
+
+class ProposalOperations(OperationsBase):
+    registration_committee_add_member = ()
+    registration_committee_exclude_member = ()
+    registration_committee_change_quorum = ()
+    development_committee_add_member = ()
+    development_committee_exclude_member = ()
+    development_committee_change_quorum = ()
+    development_committee_withdraw_vesting = ()
+    development_committee_transfer = ()
+    development_committee_empower_advertising_moderator = ()
+    development_committee_change_post_budgets_auction_properties = ()
+    development_committee_change_banner_budgets_auction_properties = ()
+    development_committee_empower_betting_moderator = ()
+    development_committee_change_betting_resolve_delay = ()
+
+
+operations = {k: v for Ops in [Operations, ProposalOperations] for k, v in Ops.__members__.items()}

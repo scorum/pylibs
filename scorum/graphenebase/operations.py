@@ -4,24 +4,22 @@ from collections import OrderedDict
 
 try:
     from .account import PublicKey
-    from .betting import Game, Market
+    from .betting import Game, Market, Wincase
     from .chains import default_prefix
     from .graphene_types import (
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
-        Set, Map, BudgetType, Uuid
+        Set, Map, BudgetType, Uuid, Odds32
     )
-    from .objects import GrapheneObject, isArgsThisClass
-    from .objects import Operation
+    from .objects import GrapheneObject, isArgsThisClass, Operation, Optional
 except (ImportError, SystemError):
     from account import PublicKey
-    from betting import Game, Market
+    from betting import Game, Market, Wincase
     from chains import default_prefix
     from graphene_types import (
         Int16, Uint16, Uint32, Int64, String, Array, PointInTime, Bool,
-        Set, Map, BudgetType, Uuid
+        Set, Map, BudgetType, Uuid, Odds32
     )
-    from objects import GrapheneObject, isArgsThisClass
-    from objects import Operation
+    from objects import GrapheneObject, isArgsThisClass, Operation, Optional
 
 asset_precision = {
     "SCR": 9,
@@ -229,6 +227,31 @@ class AccountCreate(GrapheneObject):
             ]))
 
 
+class AccountUpdate(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            prefix = kwargs.pop("prefix", default_prefix)
+
+            meta = ""
+            if "json_metadata" in kwargs and kwargs["json_metadata"]:
+                if isinstance(kwargs["json_metadata"], dict):
+                    meta = json.dumps(kwargs["json_metadata"])
+                else:
+                    meta = kwargs["json_metadata"]
+            super().__init__(OrderedDict([
+                ('account', String(kwargs["account"])),
+                ('owner', Optional(Permission(kwargs["owner"], prefix=prefix))),
+                ('active', Optional(Permission(kwargs["active"], prefix=prefix))),
+                ('posting', Optional(Permission(kwargs["posting"], prefix=prefix))),
+                ('memo_key', PublicKey(kwargs["memo_key"], prefix=prefix)),
+                ('json_metadata', String(meta)),
+            ]))
+
+
 class AccountCreateByCommittee(GrapheneObject):
     def __init__(self, *args, **kwargs):
         if isArgsThisClass(self, args):
@@ -351,6 +374,19 @@ class DevelopmentCommitteeChangeBannerBudgetsAuctionProperties(GrapheneObject):
                 ]))
 
 
+class DevelopmentCommitteeEmpowerBettingModerator(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            super().__init__(
+                OrderedDict([
+                    ('account', String(kwargs['account']))
+                ]))
+
+
 class WitnessProps(GrapheneObject):
     def __init__(self, *args, **kwargs):
         if isArgsThisClass(self, args):
@@ -445,6 +481,21 @@ class DelegateScorumPower(GrapheneObject):
                 ]))
 
 
+class DelegateSpFromRegPool(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            super(DelegateSpFromRegPool, self).__init__(
+                OrderedDict([
+                    ('reg_committee_member', String(kwargs["reg_committee_member"])),
+                    ('delegatee', String(kwargs["delegatee"])),
+                    ('scorumpower', Amount(kwargs["scorumpower"]))
+                ]))
+
+
 class CreateGame(GrapheneObject):
     def __init__(self, *args, **kwargs):
         if isArgsThisClass(self, args):
@@ -457,11 +508,115 @@ class CreateGame(GrapheneObject):
 
             super().__init__(
                 OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
                     ('moderator', String(kwargs['moderator'])),
-                    ('name', String(kwargs["name"])),
-                    ('start', PointInTime(kwargs['start'])),
+                    ('json_metadata', String(kwargs["json_metadata"])),
+                    ('start_time', PointInTime(kwargs['start_time'])),
+                    ('auto_resolve_delay_sec', Uint32(kwargs['auto_resolve_delay_sec'])),
                     ('game', Game(kwargs['game'])),
                     ('markets', Array(markets))
+                ]))
+
+
+class CancelGame(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('moderator', String(kwargs['moderator']))
+                ]))
+
+
+class UpdateGameMarkets(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            markets = [Market(m) for m in kwargs['markets']]
+
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('moderator', String(kwargs['moderator'])),
+                    ('markets', Array(markets))
+                ]))
+
+
+class UpdateGameStartTime(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('moderator', String(kwargs['moderator'])),
+                    ('start_time', PointInTime(kwargs['start_time']))
+                ]))
+
+
+class PostGameResults(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            wincases = [Wincase(w) for w in kwargs['wincases']]
+
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('moderator', String(kwargs['moderator'])),
+                    ('wincases', Array(wincases))
+                ]))
+
+
+class PostBet(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            numerator, denominator = kwargs['odds']
+            super().__init__(
+                OrderedDict([
+                    ('uuid', Uuid(kwargs['uuid'])),
+                    ('better', String(kwargs['better'])),
+                    ('game_uuid', Uuid(kwargs['game_uuid'])),
+                    ('wincase', Wincase(kwargs['wincase'])),
+                    ('odds', Odds32(numerator, denominator)),
+                    ('stake', Amount(kwargs['stake'])),
+                    ('live', Bool(kwargs['live']))
+                ]))
+
+
+class CancelPendingBets(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            uuids = [Uuid(u) for u in kwargs['uuids']]
+            super().__init__(
+                OrderedDict([
+                    ('bet_uuids', Array(uuids)),
+                    ('better', String(kwargs['better']))
                 ]))
 
 
@@ -477,4 +632,17 @@ class CloseBudgetByAdvertisingModerator(GrapheneObject):
                     ('type', BudgetType(kwargs['type'])),
                     ('uuid', Uuid(kwargs["uuid"])),
                     ('moderator', String(kwargs["moderator"]))
+                ]))
+
+
+class DevelopmentCommitteeChangeBettingResolveDelay(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            super().__init__(
+                OrderedDict([
+                    ('delay_sec', Uint32(kwargs['delay_sec']))
                 ]))

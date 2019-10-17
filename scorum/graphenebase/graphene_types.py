@@ -72,12 +72,34 @@ class Int16():
         return '%d' % self.data
 
 
+class Odds16:
+    def __init__(self, numerator, denominator):
+        self.odds = {"numerator": numerator, "denominator": denominator}
+
+    def __bytes__(self):
+        return bytes(Int16(self.odds["numerator"])) + bytes(Int16(self.odds["denominator"]))
+
+    def __str__(self):
+        return json.dumps(self.odds)
+
+
 class Uint16():
     def __init__(self, d):
         self.data = int(d)
 
     def __bytes__(self):
         return struct.pack("<H", self.data)
+
+    def __str__(self):
+        return '%d' % self.data
+
+
+class Int32():
+    def __init__(self, d):
+        self.data = int(d)
+
+    def __bytes__(self):
+        return struct.pack("<i", int(self.data))
 
     def __str__(self):
         return '%d' % self.data
@@ -92,6 +114,17 @@ class Uint32():
 
     def __str__(self):
         return '%d' % self.data
+
+
+class Odds32:
+    def __init__(self, numerator, denominator):
+        self.odds = {"numerator": numerator, "denominator": denominator}
+
+    def __bytes__(self):
+        return bytes(Int32(self.odds["numerator"])) + bytes(Int32(self.odds["denominator"]))
+
+    def __str__(self):
+        return json.dumps(self.odds)
 
 
 class Uint64():
@@ -296,7 +329,7 @@ class Optional():
         return not bool(bytes(self.data))
 
 
-class Static_variant():
+class StaticVariant:
     def __init__(self, d, type_id):
         self.data = d
         self.type_id = type_id

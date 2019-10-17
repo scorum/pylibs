@@ -103,6 +103,43 @@ def account_create_operation(
     )
 
 
+def account_update_operation(
+    account: str,
+    owner: str,
+    active: str,
+    posting: str,
+    memo,
+    json_meta,
+):
+    owner_pubkey = owner if type(owner) is PublicKey else PublicKey(owner)
+    active_pubkey = active if type(active) is PublicKey else PublicKey(active)
+    posting_pubkey = posting if type(posting) is PublicKey else PublicKey(posting)
+    memo_pubkey = memo if type(memo) is PublicKey else PublicKey(memo)
+
+    owner_key_authority = [[str(owner_pubkey), 1]]
+    active_key_authority = [[str(active_pubkey), 1]]
+    posting_key_authority = [[str(posting_pubkey), 1]]
+    owner_accounts_authority = []
+    active_accounts_authority = []
+    posting_accounts_authority = []
+
+    return operations.AccountUpdate(
+        **{
+           'account': account,
+           'owner': {'account_auths': owner_accounts_authority,
+                     'key_auths': owner_key_authority,
+                     'weight_threshold': 1},
+           'active': {'account_auths': active_accounts_authority,
+                      'key_auths': active_key_authority,
+                      'weight_threshold': 1},
+           'posting': {'account_auths': posting_accounts_authority,
+                       'key_auths': posting_key_authority,
+                       'weight_threshold': 1},
+           'memo_key': str(memo_pubkey),
+           'json_metadata': json_meta}
+    )
+
+
 def account_create_by_committee_operation(
     creator: str,
     name: str,
@@ -246,14 +283,74 @@ def delegate_scorumpower(delegator, delegatee, scorumpower):
     )
 
 
-def create_game(moderator, name, game, start, markets):
-    return operations.CreateGame(
-        **{'moderator': moderator,
-           'name': name,
-           'game': game,
-           'start': start,
-           'markets': markets}
+def delegate_sp_from_reg_pool(reg_committee_member, delegatee, scorumpower):
+    return operations.DelegateSpFromRegPool(
+        **{'reg_committee_member': reg_committee_member,
+           'delegatee': delegatee,
+           'scorumpower': str(scorumpower)}
     )
+
+
+def create_game(uuid, moderator, json_metadata, start_time, auto_resolve_delay_sec, game, markets):
+    return operations.CreateGame(**{
+        'uuid': uuid,
+        'moderator': moderator,
+        'json_metadata': json_metadata,
+        'start_time': start_time,
+        'auto_resolve_delay_sec': auto_resolve_delay_sec,
+        'game': game,
+        'markets': markets
+    })
+
+
+def cancel_game(uuid, moderator):
+    return operations.CancelGame(**{
+        'uuid': uuid,
+        'moderator': moderator
+    })
+
+
+def update_game_markets(uuid, moderator, markets):
+    return operations.UpdateGameMarkets(**{
+        'uuid': uuid,
+        'moderator': moderator,
+        'markets': markets
+    })
+
+
+def update_game_start_time(uuid, moderator, start_time):
+    return operations.UpdateGameStartTime(**{
+        'uuid': uuid,
+        'moderator': moderator,
+        'start_time': start_time
+    })
+
+
+def post_game_results(uuid, moderator, wincases):
+    return operations.PostGameResults(**{
+        'uuid': uuid,
+        'moderator': moderator,
+        'wincases': wincases
+    })
+
+
+def post_bet(uuid, better, game_uuid, wincase, odds, stake, live):
+    return operations.PostBet(**{
+        'uuid': uuid,
+        'better': better,
+        'game_uuid': game_uuid,
+        'wincase': wincase,
+        'odds': odds,
+        'stake': stake,
+        'live': live
+    })
+
+
+def cancel_pending_bets(uuids, better):
+    return operations.CancelPendingBets(**{
+        'uuids': uuids,
+        'better': better
+    })
 
 
 def development_committee_empower_advertising_moderator(initiator, moderator, lifetime_sec):
@@ -286,5 +383,25 @@ def close_budget_by_advertising_moderator(uuid, moderator, type):
             "moderator": moderator,
             "uuid": uuid,
             "type": type
+        }
+    )
+
+
+def development_committee_empower_betting_moderator(initiator, moderator, lifetime_sec):
+    return operations.ProposalCreate(
+        **{
+            "creator": initiator,
+            "lifetime_sec": lifetime_sec,
+            "operation": operations.DevelopmentCommitteeEmpowerBettingModerator(**{"account": moderator})
+        }
+    )
+
+
+def development_committee_change_betting_resolve_delay(initiator, delay_sec, lifetime_sec):
+    return operations.ProposalCreate(
+        **{
+            "creator": initiator,
+            "lifetime_sec": lifetime_sec,
+            "operation": operations.DevelopmentCommitteeChangeBettingResolveDelay(**{"delay_sec": delay_sec})
         }
     )
