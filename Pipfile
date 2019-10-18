@@ -10,7 +10,7 @@ python_version = "3.5"
 
 [packages]
 requests = "*"
-ecdsa = "==0.13"
+ecdsa = "==0.13.3"
 pytest = "*"
 pycrypto = "==2.6.1"
 scrypt = "==0.8.0"
